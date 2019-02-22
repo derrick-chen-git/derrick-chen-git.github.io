@@ -65,39 +65,26 @@
     <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/02/22/hello-world/" class="article-date">
-  <time datetime="2019-02-22T07:21:33.213Z" itemprop="datePublished">2019-02-22</time>
+  <time datetime="2019-02-22T08:44:43.797Z" itemprop="datePublished">2019-02-22</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/22/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <hr>
+<h2 id="Docker-redis单机"><a href="#Docker-redis单机" class="headerlink" title="Docker-redis单机"></a>Docker-redis单机</h2><h3 id="单独下载配置文件"><a href="#单独下载配置文件" class="headerlink" title="单独下载配置文件"></a>单独下载配置文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/antirez/redis/4.0/redis.conf -O conf/redis.conf</span><br></pre></td></tr></table></figure>
+<h3 id="pull最新redis镜像"><a href="#pull最新redis镜像" class="headerlink" title="pull最新redis镜像"></a>pull最新redis镜像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull redis:latest</span><br></pre></td></tr></table></figure>
+<h3 id="redis-启动命令"><a href="#redis-启动命令" class="headerlink" title="redis 启动命令"></a>redis 启动命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">-p 6379:6379 \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/redis/data:/data \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/redis/redis.conf:/etc/redis/redis.conf \</span><br><span class="line">--privileged=<span class="literal">true</span> \</span><br><span class="line">--name redis \</span><br><span class="line">-d redis redis-server /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<h3 id="命令解释"><a href="#命令解释" class="headerlink" title="命令解释"></a>命令解释</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">-p 6379:6379 \ <span class="comment"># 端口映射 宿主机:容器</span></span><br><span class="line">-v <span class="variable">$PWD</span>/data:/data:rw \ <span class="comment"># 映射数据目录 rw 为读写</span></span><br><span class="line">-v <span class="variable">$PWD</span>/conf/redis.conf:/etc/redis/redis.conf:ro \ <span class="comment"># 挂载配置文件 ro 为readonly</span></span><br><span class="line">--privileged=<span class="literal">true</span> \ <span class="comment"># 给与一些权限</span></span><br><span class="line">--name myredis \ <span class="comment"># 给容器起个名字</span></span><br><span class="line">-d redis redis-server /etc/redis/redis.conf <span class="comment"># deamon 运行 服务使用指定的配置文件</span></span><br></pre></td></tr></table></figure>
+<h3 id="redis单机登录"><a href="#redis单机登录" class="headerlink" title="redis单机登录"></a>redis单机登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect 容器id|grep -i add</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/02/22/hello-world/" data-id="cjsfso3kb00002j3k5tb7eoli" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/02/22/hello-world/" data-id="cjsft7zax0000783kh73ugp8b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,7 +125,7 @@
       <ul>
         
           <li>
-            <a href="/2019/02/22/hello-world/">Hello World</a>
+            <a href="/2019/02/22/hello-world/">(no title)</a>
           </li>
         
       </ul>
